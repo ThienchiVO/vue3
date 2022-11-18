@@ -1,3 +1,26 @@
+<script setup>
+import { onBeforeMount,ref } from 'vue'
+import axios from 'axios'
+import AmiiboDataTableRow from '@/components/AmiiboDataTableRow.vue'
+
+const API_AMIIBO = 'https://www.amiiboapi.com/api/amiibo/'
+
+
+const amiiboList = ref([])
+const isDataLoading = ref(true)
+
+onBeforeMount(async ()=>{
+  const allAmiibo = await axios.get(API_AMIIBO);
+  const {data,status} = allAmiibo;
+  if(status===200){
+    isDataLoading.value=false
+  }
+  amiiboList.value = data
+  console.log(data)
+})
+
+</script>
+
 <template>
   <div id="page-wrapper">
 
@@ -10,7 +33,7 @@
 
           <header>
             <h2>Ma Collection</h2>
-            <p>(ici le nombre d'amiibo)</p>
+            <p v-if="!isDataLoading">Il y a {{amiiboList.amiibo.length}} amiibos</p>
           </header>
             <table>
               <tr>
@@ -18,20 +41,7 @@
                 <th>game Series</th>
                 <th>Action</th>
               </tr>
-              <tr>
-                <td>Mario</td>
-                <td>Super Mario</td>
-                <td>
-                  <button>voir</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Luigi</td>
-                <td>Super Mario</td>
-                <td>
-                  <button>voir</button>
-                </td>
-              </tr>
+              <AmiiboDataTableRow v-for="amiibo in amiiboList.amiibo" :key="amiibo.tail" :amiibo="amiibo"></AmiiboDataTableRow>
             </table>
 
         </article>

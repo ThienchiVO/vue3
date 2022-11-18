@@ -1,21 +1,25 @@
+<script setup>
+  import { useRoute } from 'vue-router';
+  import { onBeforeMount,ref } from 'vue'
+  import axios from 'axios'
+
+  const API_AMIIBO = 'https://www.amiiboapi.com/api/amiibo/'
+
+  const route = useRoute()
+  const currentAmiibo = ref({})
+
+  onBeforeMount(async ()=>{
+
+    const oneAmiibo = await axios.get(API_AMIIBO+'/?tail='+route.params.amiiboTail)
+    const {data} = oneAmiibo;
+    currentAmiibo.value = data;
+
+    console.log(currentAmiibo.value);
+  })
+</script>
+
 <template>
   <div id="page-wrapper">
-
-    <!-- Header -->
-    <section id="header">
-
-      <!-- Logo -->
-      <h1><a href="index.html">AmiiVue</a></h1>
-
-      <!-- Nav -->
-      <nav id="nav">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="liste.html">Liste Amiibo</a></li>
-        </ul>
-      </nav>
-
-    </section>
 
     <!-- Main -->
     <section id="main">
@@ -28,7 +32,7 @@
               <header>
                 <h3>Infos</h3>
               </header>
-              <p> amiiboSeries: <b>Animal Crossing</b> <br/>
+              <p> amiiboSeries: <b>amiiboSeries</b> <br/>
                 character: Cube<br/>
                 gameSeries: Animal Crossing<br/>
                 type: card
@@ -92,9 +96,7 @@
   </div>
 </template>
 
-<script>
 
-</script>
 
 <style scoped>
 

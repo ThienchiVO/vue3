@@ -17,8 +17,8 @@ const router = createRouter({
       component: AmiiboList
     },
     {
-      path: '/amiiboList/:amiiboId',
-      name: 'amiibo',
+      path: '/amiiboList/:amiiboTail',
+      name: 'amiiboDetails',
       component: AmiiboDetails
     }
   ]
